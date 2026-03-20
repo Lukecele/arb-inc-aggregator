@@ -37,16 +37,30 @@ export function useSwapRoute({
   
   const params = useMemo((): GetRouteParams | null => {
     if (!tokenIn || !tokenOut || !amountIn || !enabled) return null
-    return {
+    
+    const p: GetRouteParams = {
       tokenIn,
       tokenOut,
       amountIn,
-      feeAmount: process.env.NEXT_PUBLIC_KYBER_FEE_AMOUNT,
-      chargeFeeBy: (process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY as 'currency_in' | 'currency_out') || 'currency_in',
-      isInBps: process.env.NEXT_PUBLIC_KYBER_FEE_IS_IN_BPS !== 'false',
-      feeReceiver: process.env.NEXT_PUBLIC_KYBER_FEE_RECEIVER,
-      origin: address,
     }
+    
+    const feeAmount = process.env.NEXT_PUBLIC_KYBER_FEE_AMOUNT
+    if (feeAmount) p.feeAmount = feeAmount
+    
+    const chargeFeeBy = process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY
+    if (chargeFeeBy === 'currency_in' || chargeFeeBy === 'currency_out') {
+      p.chargeFeeBy = chargeFeeBy
+    }
+    
+    const isInBps = process.env.NEXT_PUBLIC_KYBER_FEE_IS_IN_BPS
+    if (isInBps !== undefined) p.isInBps = isInBps !== 'false'
+    
+    const feeReceiver = process.env.NEXT_PUBLIC_KYBER_FEE_RECEIVER
+    if (feeReceiver) p.feeReceiver = feeReceiver
+    
+    if (address) p.origin = address
+    
+    return p
   }, [tokenIn, tokenOut, amountIn, enabled, address])
 
   const [route, setRoute] = useState<RouteSummary | null>(null)

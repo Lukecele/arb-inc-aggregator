@@ -119,6 +119,8 @@ export interface SwapError {
 
 // API Error Codes from KyberSwap
 export const API_ERROR_CODES = {
+  0: 'Success',
+  4000: 'Bad request',
   4001: 'Query parameters are malformed',
   4002: 'Request body is malformed',
   4005: 'Fee amount is greater than amount in',
