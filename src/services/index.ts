@@ -1,1 +1,1 @@
-export { KyberSwapService, getKyberSwapService, resetKyberSwapService } from './kyberswap'
+export * from './kyberswap'

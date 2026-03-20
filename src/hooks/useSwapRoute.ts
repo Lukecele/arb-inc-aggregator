@@ -2,15 +2,23 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useWallet } from './useWallet'
-import { getKyberSwapService } from '@/services/kyberswap'
-import {
-  GetRouteParams,
-  BuildRouteParams,
-  RouteSummary,
-} from '@/types/kyberswap'
-import {
-  DEFAULT_SLIPPAGE_BIPS,
-} from '@/config/constants'
+import { getSwapRoute, buildSwapRoute, CHAIN_NAMES, DevFeeConfig } from '@/services/kyberswap'
+import { RouteSummary } from '@/services/kyberswap'
+
+const DEV_FEE_CONFIG: DevFeeConfig | null = (() => {
+  const feeReceiver = process.env.NEXT_PUBLIC_KYBER_FEE_RECEIVER
+  const feeAmount = parseInt(process.env.NEXT_PUBLIC_KYBER_FEE_AMOUNT || '0', 10)
+  const chargeFeeBy = process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY as 'currency_in' | 'currency_out' | undefined
+  
+  if (feeReceiver && feeAmount > 0 && (chargeFeeBy === 'currency_in' || chargeFeeBy === 'currency_out')) {
+    return {
+      feeReceiver,
+      feeAmount,
+      chargeFeeBy,
+    }
+  }
+  return null
+})()
 
 interface UseSwapRouteParams {
   tokenIn: string
@@ -35,19 +43,10 @@ export function useSwapRoute({
 }: UseSwapRouteParams): UseSwapRouteResult {
   const { address } = useWallet()
   
-  const params = useMemo((): GetRouteParams | null => {
+  const params = useMemo(() => {
     if (!tokenIn || !tokenOut || !amountIn || !enabled) return null
-    
-    const p: GetRouteParams = {
-      tokenIn,
-      tokenOut,
-      amountIn,
-    }
-    
-    if (address) p.origin = address
-    
-    return p
-  }, [tokenIn, tokenOut, amountIn, enabled, address])
+    return { tokenIn, tokenOut, amountIn }
+  }, [tokenIn, tokenOut, amountIn, enabled])
 
   const [route, setRoute] = useState<RouteSummary | null>(null)
   const [routerAddress, setRouterAddress] = useState<string | null>(null)
@@ -61,15 +60,19 @@ export function useSwapRoute({
     setError(null)
     
     try {
-      const service = getKyberSwapService()
-      const response = await service.getRoute(params)
+      const data = await getSwapRoute(
+        CHAIN_NAMES.BSC,
+        {
+          tokenIn: params.tokenIn,
+          tokenOut: params.tokenOut,
+          amountIn: params.amountIn,
+        },
+        process.env.KYBER_CLIENT_ID || 'DemoDEX',
+        DEV_FEE_CONFIG
+      )
       
-      if (response.code === 0) {
-        setRoute(response.data.routeSummary)
-        setRouterAddress(response.data.routerAddress)
-      } else {
-        throw new Error(response.message || 'Failed to get route')
-      }
+      setRoute(data.routeSummary)
+      setRouterAddress(data.routerAddress)
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
       setRoute(null)
@@ -83,13 +86,7 @@ export function useSwapRoute({
     fetchRoute()
   }, [fetchRoute])
 
-  return {
-    route,
-    routerAddress,
-    isLoading,
-    error,
-    refetch: fetchRoute,
-  }
+  return { route, routerAddress, isLoading, error, refetch: fetchRoute }
 }
 
 interface UseSwapBuildParams {
@@ -109,7 +106,7 @@ interface UseSwapBuildResult {
 
 export function useSwapBuild({
   routeSummary,
-  slippageTolerance = DEFAULT_SLIPPAGE_BIPS,
+  slippageTolerance = 50,
   enabled = true,
 }: UseSwapBuildParams): UseSwapBuildResult {
   const { address } = useWallet()
@@ -120,45 +117,34 @@ export function useSwapBuild({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const build = async () => {
+  const build = useCallback(async () => {
     if (!routeSummary || !address || !enabled) return
     
     setIsLoading(true)
     setError(null)
     
     try {
-      const service = getKyberSwapService()
+      const data = await buildSwapRoute(
+        CHAIN_NAMES.BSC,
+        {
+          routeSummary,
+          sender: address,
+          recipient: address,
+          slippageTolerance,
+        },
+        process.env.KYBER_CLIENT_ID || 'DemoDEX'
+      )
       
-      const params: BuildRouteParams = {
-        routeSummary,
-        sender: address,
-        recipient: address,
-        slippageTolerance,
-      }
-      
-      const response = await service.buildRoute(params)
-      
-      if (response.code === 0) {
-        setCalldata(response.data.data)
-        setTransactionValue(response.data.transactionValue)
-        setAmountOut(response.data.amountOut)
-      } else {
-        throw new Error(response.message || 'Failed to build route')
-      }
+      setCalldata(data.data)
+      setTransactionValue(data.transactionValue)
+      setAmountOut(data.amountOut)
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
       setCalldata(null)
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [routeSummary, address, slippageTolerance, enabled])
 
-  return {
-    calldata,
-    transactionValue,
-    amountOut,
-    isLoading,
-    error,
-    build,
-  }
+  return { calldata, transactionValue, amountOut, isLoading, error, build }
 }

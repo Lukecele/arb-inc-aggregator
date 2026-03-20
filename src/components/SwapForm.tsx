@@ -10,7 +10,7 @@ import { NATIVE_TOKEN_ADDRESS } from '@/config/constants'
 import { getTokenByAddress } from '@/config/tokens'
 
 export function SwapForm() {
-  const { address, isConnected, connect } = useWallet()
+  const { address, isConnected, connect, connectors } = useWallet()
   
   const [tokenIn, setTokenIn] = useState(NATIVE_TOKEN_ADDRESS)
   const [tokenOut, setTokenOut] = useState('0x55d398326f99059fF775485246999027B3197955')
@@ -113,8 +113,9 @@ export function SwapForm() {
 
         <button
           onClick={() => {
-            if (!isConnected) {
-              connect(0)
+            if (!isConnected && connectors[0]) {
+              // @ts-expect-error wagmi v2 connect mutation
+              connect({ connector: connectors[0] })
             }
           }}
           disabled={isConnected && !canSwap}
