@@ -88,7 +88,7 @@ export function SwapForm() {
           <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm space-y-1">
             <div className="flex justify-between">
               <span className="text-gray-500">Rate</span>
-              <span>1 {getTokenByAddress(tokenIn)?.symbol} = {formatAmount(BigInt(parseFloat(route.amountOut) * 1e18 / parseFloat(amountIn)).toString())} {getTokenByAddress(tokenOut)?.symbol}</span>
+              <span>1 {getTokenByAddress(tokenIn)?.symbol} = {amountIn && parseFloat(amountIn) > 0 ? formatAmount(BigInt(Math.round(parseFloat(route.amountOut) * 1e18 / parseFloat(amountIn))).toString()) : '0.0'} {getTokenByAddress(tokenOut)?.symbol}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Price Impact</span>
@@ -109,11 +109,6 @@ export function SwapForm() {
 
         <button
           disabled={!canSwap}
-          onClick={() => {
-            if (!isConnected) {
-              document.querySelector<HTMLButtonElement>('[data-connect-wallet]')?.click()
-            }
-          }}
           className="w-full mt-6 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           {!isConnected

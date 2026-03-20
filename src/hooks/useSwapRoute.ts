@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useWallet } from './useWallet'
 import { getKyberSwapService } from '@/services/kyberswap'
 import {
@@ -42,7 +42,7 @@ export function useSwapRoute({
       tokenOut,
       amountIn,
       feeAmount: process.env.NEXT_PUBLIC_KYBER_FEE_AMOUNT,
-      chargeFeeBy: process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY as 'currency_in' | 'currency_out',
+      chargeFeeBy: (process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY as 'currency_in' | 'currency_out') || 'currency_in',
       isInBps: process.env.NEXT_PUBLIC_KYBER_FEE_IS_IN_BPS !== 'false',
       feeReceiver: process.env.NEXT_PUBLIC_KYBER_FEE_RECEIVER,
       origin: address,
@@ -54,7 +54,7 @@ export function useSwapRoute({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const fetchRoute = async () => {
+  const fetchRoute = useCallback(async () => {
     if (!params) return
     
     setIsLoading(true)
@@ -77,7 +77,11 @@ export function useSwapRoute({
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [params])
+
+  useEffect(() => {
+    fetchRoute()
+  }, [fetchRoute])
 
   return {
     route,
