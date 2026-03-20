@@ -1,3 +1,13 @@
+const mockPublicClient = {
+  simulateContract: jest.fn(),
+  waitForTransactionReceipt: jest.fn(),
+}
+
+const mockWalletClient = {
+  writeContract: jest.fn(),
+  sendTransaction: jest.fn(),
+}
+
 jest.mock('wagmi', () => ({
   useAccount: jest.fn(() => ({
     address: '0x1234567890123456789012345678901234567890',
@@ -16,18 +26,12 @@ jest.mock('wagmi', () => ({
     disconnect: jest.fn(),
   })),
   useChainId: jest.fn(() => 56),
-  usePublicClient: jest.fn(() => ({
-    simulateContract: jest.fn(),
-    waitForTransactionReceipt: jest.fn(),
-  })),
-  useWalletClient: jest.fn(() => ({
-    data: {
-      writeContract: jest.fn(),
-      sendTransaction: jest.fn(),
-    },
-  })),
+  usePublicClient: jest.fn(() => mockPublicClient),
+  useWalletClient: jest.fn(() => ({ data: mockWalletClient })),
   WagmiProvider: ({ children }: { children: React.ReactNode }) => children,
 }))
+
+export { mockPublicClient, mockWalletClient }
 
 jest.mock('@tanstack/react-query', () => ({
   QueryClient: jest.fn(() => ({
