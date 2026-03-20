@@ -7,7 +7,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'BNB',
     name: 'BNB',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -15,7 +15,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'WBNB',
     name: 'Wrapped BNB',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -23,7 +23,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'USDT',
     name: 'Tether USD',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x55d398326f99059fF775485246999027B3197955.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -31,7 +31,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'USDC',
     name: 'USD Coin',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x8AC76a51cc950d9822D68d83eE8B12b539eB5eCe.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -39,7 +39,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'BUSD',
     name: 'Binance USD',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -47,7 +47,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'CAKE',
     name: 'PancakeSwap Token',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x0E09FaBB73Bd3ade0a17ECC321fD13a19e81cE82.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/0x0E09FaBB73Bd3ade0a17ECC321fD13a19e81cE82/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -55,7 +55,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'DAI',
     name: 'Dai Stablecoin',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x1AF3F329e8BEc1545F312115BDB1E25E2c634e0.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EesdfD5C5671e5/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -63,7 +63,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'ETH',
     name: 'Ethereum',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x2170Ed0880ac9A755fd29B2688956BD959F933F8.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -71,7 +71,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'BTCB',
     name: 'Bitcoin BEP2',
     decimals: 18,
-    logoURI: 'https://tokens.curve.fi/images/56/0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c/logo.png',
     chainId: BSC_CHAIN.id,
   },
   {
@@ -79,7 +79,7 @@ export const BSC_TOKENS: Token[] = [
     symbol: 'NFTS',
     name: 'NFTSpace',
     decimals: 9,
-    logoURI: 'https://tokens.curve.fi/images/56/0x250632378E573c6BE1AC2f97F86400502E1fAd0.png',
+    logoURI: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x250632378E573c6BE1AC2f97F86400502E1fAd0/logo.png',
     chainId: BSC_CHAIN.id,
   },
 ]

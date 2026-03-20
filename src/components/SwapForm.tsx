@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import { AmountInput } from './AmountInput'
 import { TokenSelector } from './TokenSelector'
 import { WalletConnector } from './WalletConnector'
-import { useWallet } from '@/hooks/useWallet'
+import { useWallet, useTokenBalance } from '@/hooks'
 import { useSwapRoute } from '@/hooks/useSwapRoute'
-import { NATIVE_TOKEN_ADDRESS, BSC_CHAIN } from '@/config/constants'
-import { getTokenByAddress, isNativeToken } from '@/config/tokens'
+import { NATIVE_TOKEN_ADDRESS } from '@/config/constants'
+import { getTokenByAddress } from '@/config/tokens'
 
 export function SwapForm() {
   const { address, isConnected } = useWallet()
@@ -17,10 +17,13 @@ export function SwapForm() {
   const [amountIn, setAmountIn] = useState('')
   const [slippage, setSlippage] = useState('0.5')
 
+  const { balance: balanceIn } = useTokenBalance({ tokenAddress: tokenIn })
+  const { balance: balanceOut } = useTokenBalance({ tokenAddress: tokenOut })
+
   const { route, isLoading, error, refetch } = useSwapRoute({
     tokenIn,
     tokenOut,
-    amountIn: amountIn ? BigInt(parseFloat(amountIn) * 1e18).toString() : '0',
+    amountIn: amountIn ? BigInt(Math.round(parseFloat(amountIn) * 1e18)).toString() : '0',
     enabled: !!amountIn && parseFloat(amountIn) > 0,
   })
 
@@ -61,6 +64,7 @@ export function SwapForm() {
           tokenAddress={tokenIn}
           onTokenChange={setTokenIn}
           excludeToken={tokenOut}
+          balance={balanceIn || undefined}
         />
 
         <div className="flex justify-center -my-3 relative z-10">

@@ -34,7 +34,7 @@ export function useSwapExecute({
   onSuccess,
   onError,
 }: UseSwapExecuteParams) {
-  const { address, isConnected } = useWallet()
+  const { address } = useWallet()
   const publicClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
   
