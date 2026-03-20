@@ -25,14 +25,14 @@ export class KyberSwapService {
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
-        'X-Client-Id': this.clientId,
+        'x-client-id': this.clientId,
       },
     })
   }
 
   setClientId(clientId: string): void {
     this.clientId = clientId
-    this.client.defaults.headers['X-Client-Id'] = clientId
+    this.client.defaults.headers['x-client-id'] = clientId
   }
 
   async getRoute(params: GetRouteParams): Promise<GetRouteResponse> {
