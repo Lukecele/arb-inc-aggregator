@@ -10,7 +10,7 @@ import { NATIVE_TOKEN_ADDRESS } from '@/config/constants'
 import { getTokenByAddress } from '@/config/tokens'
 
 export function SwapForm() {
-  const { address, isConnected } = useWallet()
+  const { address, isConnected, connect } = useWallet()
   
   const [tokenIn, setTokenIn] = useState(NATIVE_TOKEN_ADDRESS)
   const [tokenOut, setTokenOut] = useState('0x55d398326f99059fF775485246999027B3197955')
@@ -114,7 +114,7 @@ export function SwapForm() {
         <button
           onClick={() => {
             if (!isConnected) {
-              document.querySelector<HTMLButtonElement>('button:has-text("Connect Wallet")')?.click()
+              connect(0)
             }
           }}
           disabled={isConnected && !canSwap}
