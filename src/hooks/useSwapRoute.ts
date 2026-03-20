@@ -44,20 +44,6 @@ export function useSwapRoute({
       amountIn,
     }
     
-    const feeAmount = process.env.NEXT_PUBLIC_KYBER_FEE_AMOUNT
-    if (feeAmount) p.feeAmount = feeAmount
-    
-    const chargeFeeBy = process.env.NEXT_PUBLIC_KYBER_FEE_CHARGE_BY
-    if (chargeFeeBy === 'currency_in' || chargeFeeBy === 'currency_out') {
-      p.chargeFeeBy = chargeFeeBy
-    }
-    
-    const isInBps = process.env.NEXT_PUBLIC_KYBER_FEE_IS_IN_BPS
-    if (isInBps !== undefined) p.isInBps = isInBps !== 'false'
-    
-    const feeReceiver = process.env.NEXT_PUBLIC_KYBER_FEE_RECEIVER
-    if (feeReceiver) p.feeReceiver = feeReceiver
-    
     if (address) p.origin = address
     
     return p
