@@ -114,8 +114,7 @@ export function SwapForm() {
         <button
           onClick={() => {
             if (!isConnected) {
-              const connectBtn = document.querySelector<HTMLButtonElement>('button:has-text("Connect Wallet")')
-              if (connectBtn) connectBtn.click()
+              document.querySelector<HTMLButtonElement>('button:has-text("Connect Wallet")')?.click()
             }
           }}
           disabled={isConnected && !canSwap}
@@ -127,6 +126,8 @@ export function SwapForm() {
             ? 'Enter an amount'
             : isLoading
             ? 'Finding best route...'
+            : !route
+            ? 'Select token pair'
             : 'Swap'}
         </button>
 
