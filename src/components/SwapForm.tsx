@@ -112,7 +112,13 @@ export function SwapForm() {
         )}
 
         <button
-          disabled={!canSwap}
+          onClick={() => {
+            if (!isConnected) {
+              const connectBtn = document.querySelector<HTMLButtonElement>('button:has-text("Connect Wallet")')
+              if (connectBtn) connectBtn.click()
+            }
+          }}
+          disabled={isConnected && !canSwap}
           className="w-full mt-6 py-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           {!isConnected
