@@ -2,9 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useWallet } from './useWallet'
-import { useSwapBuild } from './useSwapRoute'
 import {
-  NATIVE_TOKEN_ADDRESS,
   BSC_CHAIN,
   KYBER_ROUTER_ADDRESS,
 } from '@/config/constants'

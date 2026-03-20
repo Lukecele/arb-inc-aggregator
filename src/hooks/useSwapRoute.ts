@@ -5,13 +5,10 @@ import { useWallet } from './useWallet'
 import { getKyberSwapService } from '@/services/kyberswap'
 import {
   GetRouteParams,
-  GetRouteResponse,
   BuildRouteParams,
-  BuildRouteResponse,
   RouteSummary,
 } from '@/types/kyberswap'
 import {
-  NATIVE_TOKEN_ADDRESS,
   DEFAULT_SLIPPAGE_BIPS,
 } from '@/config/constants'
 

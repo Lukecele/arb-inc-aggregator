@@ -13,7 +13,7 @@ export interface EnvConfig {
   kyberFeeReceiver: string
   kyberFeeAmount: number
   kyberFeeIsInBps: boolean
-  kyberFeeChargeBy: 'currency_in' | 'currency_out' | 'from_token' | 'to_token'
+  kyberFeeChargeBy: 'currency_in' | 'currency_out'
   
   // Blockchain
   bscRpcUrl: string
@@ -88,7 +88,7 @@ export function getEnvConfig(): EnvConfig {
   
   // Parse fee chargeBy
   const feeChargeBy = (getEnv('KYBER_FEE_CHARGE_BY') || 'currency_in') as EnvConfig['kyberFeeChargeBy']
-  const validChargeByOptions = ['currency_in', 'currency_out', 'from_token', 'to_token']
+  const validChargeByOptions = ['currency_in', 'currency_out']
   if (!validChargeByOptions.includes(feeChargeBy)) {
     console.warn(`Invalid KYBER_FEE_CHARGE_BY value: ${feeChargeBy}. Using 'currency_in'.`)
   }

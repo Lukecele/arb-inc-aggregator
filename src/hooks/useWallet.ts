@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect, useChainId } from 'wagmi'
 import { BSC_CHAIN } from '@/config/constants'
 
